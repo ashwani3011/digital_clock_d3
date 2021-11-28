@@ -125,9 +125,13 @@ let makeDigit = () => {
   }
   return digitData;
 };
+
 let digitData = makeDigit();
+
+// render a single digit
 let render = () => {
   let rects = svg
+    //updating allready present rectangle
     .selectAll("rect")
     .data(digitData)
     .attr("height", (d) => d.height)
@@ -136,6 +140,7 @@ let render = () => {
     .attr("x", (d) => d.x)
     .attr("y", (d) => d.y)
     .attr("margin", (d) => d.margin);
+  //first time when rectangle is created
   rects
     .enter()
     .append("rect")
@@ -146,7 +151,7 @@ let render = () => {
     .attr("y", (d) => d.y)
     .attr("margin", (d) => d.margin);
 };
-// render();
+render();
 // digit is not changing in real time
 let updateDigit = (s) => {
   for (let i = 0; i < 21; i++) {
@@ -166,6 +171,6 @@ setInterval(() => {
   let h = time.getHours();
   let m = time.getMinutes();
   let s = time.getSeconds();
-  updateDigit(s % 10);
-  render();
+  //   updateDigit(s % 10);
+  //   render();
 }, 1000);
