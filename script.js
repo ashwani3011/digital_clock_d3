@@ -4,6 +4,100 @@ let svg = d3
   .attr("height", window.innerHeight)
   .attr("width", window.innerWidth);
 
+// 3D data structure
+let digits = [
+  [
+    [1, 1, 1],
+    [1, 0, 1],
+    [1, 0, 1],
+    [1, 0, 1],
+    [1, 0, 1],
+    [1, 0, 1],
+    [1, 1, 1],
+  ],
+  [
+    [0, 1, 0],
+    [0, 1, 0],
+    [0, 1, 0],
+    [0, 1, 0],
+    [0, 1, 0],
+    [0, 1, 0],
+    [0, 1, 0],
+  ],
+  [
+    [1, 1, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+    [1, 1, 1],
+    [1, 0, 0],
+    [1, 0, 0],
+    [1, 1, 1],
+  ],
+  [
+    [1, 1, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+    [1, 1, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+    [1, 1, 1],
+  ],
+  [
+    [1, 0, 1],
+    [1, 0, 1],
+    [1, 0, 1],
+    [1, 1, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+  ],
+  [
+    [1, 1, 1],
+    [1, 0, 0],
+    [1, 0, 0],
+    [1, 1, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+    [1, 1, 1],
+  ],
+  [
+    [1, 1, 1],
+    [1, 0, 0],
+    [1, 0, 0],
+    [1, 1, 1],
+    [1, 0, 1],
+    [1, 0, 1],
+    [1, 1, 1],
+  ],
+  [
+    [1, 1, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+  ],
+  [
+    [1, 1, 1],
+    [1, 0, 1],
+    [1, 0, 1],
+    [1, 1, 1],
+    [1, 0, 1],
+    [1, 0, 1],
+    [1, 1, 1],
+  ],
+  [
+    [1, 1, 1],
+    [1, 0, 1],
+    [1, 0, 1],
+    [1, 1, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+  ],
+];
+
 let squareData = {
   height: 45,
   width: 45,
@@ -31,9 +125,8 @@ let makeDigit = () => {
   }
   return digitData;
 };
-
+let digitData = makeDigit();
 let render = () => {
-  let digitData = makeDigit();
   svg
     .selectAll("rect")
     .data(digitData)
@@ -46,11 +139,26 @@ let render = () => {
     .attr("y", (d) => d.y)
     .attr("margin", (d) => d.margin);
 };
-render();
+// render();
+
+let updateDigit = (s) => {
+  for (let i = 0; i < 21; i++) {
+    let r = Math.floor(i / 3);
+    let c = i % 3;
+
+    if (digits[s][r][c] === 1) {
+      digitData[i].color = "blue";
+    } else {
+      digitData[i].color = "white";
+    }
+  }
+};
 
 setInterval(() => {
   let time = new Date();
   let h = time.getHours();
   let m = time.getMinutes();
   let s = time.getSeconds();
+  updateDigit(s % 10);
+  render();
 }, 1000);
