@@ -127,9 +127,16 @@ let makeDigit = () => {
 };
 let digitData = makeDigit();
 let render = () => {
-  svg
+  let rects = svg
     .selectAll("rect")
     .data(digitData)
+    .attr("height", (d) => d.height)
+    .attr("width", (d) => d.width)
+    .attr("fill", (d) => d.color)
+    .attr("x", (d) => d.x)
+    .attr("y", (d) => d.y)
+    .attr("margin", (d) => d.margin);
+  rects
     .enter()
     .append("rect")
     .attr("height", (d) => d.height)
@@ -140,7 +147,7 @@ let render = () => {
     .attr("margin", (d) => d.margin);
 };
 // render();
-
+// digit is not changing in real time
 let updateDigit = (s) => {
   for (let i = 0; i < 21; i++) {
     let r = Math.floor(i / 3);
