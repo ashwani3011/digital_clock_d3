@@ -107,7 +107,7 @@ let squareData = {
   margin: 5,
 };
 
-let makeDigit = () => {
+let makeDigit = (d) => {
   let digitData = [];
   // i - row, j - column
   for (let i = 0; i < 7; i++) {
@@ -117,7 +117,7 @@ let makeDigit = () => {
       if (i > 0 && i < 6 && j == 1) {
         currSquare.color = "white";
       }
-      currSquare.x = j * (currSquare.width + currSquare.margin);
+      currSquare.x = j * (currSquare.width + currSquare.margin) + d;
       currSquare.y = i * (currSquare.width + currSquare.margin);
 
       digitData.push(currSquare);
@@ -126,30 +126,42 @@ let makeDigit = () => {
   return digitData;
 };
 
-let digitData = makeDigit();
+// let digitData = makeDigit();
 
-// render a single digit
+//creating 6 digits
+let clockData = [];
+
+for (let i = 0; i < 6; i++) {
+  //creating a d factor which will handle x position of digits
+  let d = i * (3 * (squareData.width + squareData.margin) + 10);
+  clockData.push(makeDigit(d));
+}
+console.log(clockData);
+
+// renders six digit
 let render = () => {
-  let rects = svg
-    //updating allready present rectangle
-    .selectAll("rect")
-    .data(digitData)
-    .attr("height", (d) => d.height)
-    .attr("width", (d) => d.width)
-    .attr("fill", (d) => d.color)
-    .attr("x", (d) => d.x)
-    .attr("y", (d) => d.y)
-    .attr("margin", (d) => d.margin);
-  //first time when rectangle is created
-  rects
-    .enter()
-    .append("rect")
-    .attr("height", (d) => d.height)
-    .attr("width", (d) => d.width)
-    .attr("fill", (d) => d.color)
-    .attr("x", (d) => d.x)
-    .attr("y", (d) => d.y)
-    .attr("margin", (d) => d.margin);
+  for (let i = 0; i < 6; i++) {
+    let rects = svg
+      //updating allready present rectangle
+      .selectAll("rect")
+      .data(clockData[i])
+      .attr("height", (d) => d.height)
+      .attr("width", (d) => d.width)
+      .attr("fill", (d) => d.color)
+      .attr("x", (d) => d.x)
+      .attr("y", (d) => d.y)
+      .attr("margin", (d) => d.margin);
+    //first time when rectangle is created
+    rects
+      .enter()
+      .append("rect")
+      .attr("height", (d) => d.height)
+      .attr("width", (d) => d.width)
+      .attr("fill", (d) => d.color)
+      .attr("x", (d) => d.x)
+      .attr("y", (d) => d.y)
+      .attr("margin", (d) => d.margin);
+  }
 };
 render();
 // digit is not changing in real time
