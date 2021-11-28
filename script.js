@@ -136,23 +136,17 @@ for (let i = 0; i < 6; i++) {
   let d = i * (3 * (squareData.width + squareData.margin) + 10);
   clockData.push(makeDigit(d));
 }
-console.log(clockData);
+// console.log(clockData);
 
+// creating virtual object of 126objects so that we can have 6 digits
+let virtualObject = [];
+for (let i = 0; i < 6; i++) {
+  virtualObject.push(svg.selectAll("rect").data(clockData[i]));
+}
 // renders six digit
 let render = () => {
   for (let i = 0; i < 6; i++) {
-    let rects = svg
-      //updating allready present rectangle
-      .selectAll("rect")
-      .data(clockData[i])
-      .attr("height", (d) => d.height)
-      .attr("width", (d) => d.width)
-      .attr("fill", (d) => d.color)
-      .attr("x", (d) => d.x)
-      .attr("y", (d) => d.y)
-      .attr("margin", (d) => d.margin);
-    //first time when rectangle is created
-    rects
+    virtualObject[i]
       .enter()
       .append("rect")
       .attr("height", (d) => d.height)
