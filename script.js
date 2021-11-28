@@ -162,8 +162,8 @@ let render = () => {
   }
 };
 render();
-// digit is not changing in real time
-let updateDigit = (s) => {
+// update single digit
+let updateDigit = (digitData, s) => {
   for (let i = 0; i < 21; i++) {
     let r = Math.floor(i / 3);
     let c = i % 3;
@@ -175,7 +175,15 @@ let updateDigit = (s) => {
     }
   }
 };
-
+//update all 6 digit
+let updateAllDigit = (h, m, s) => {
+  updateDigit(clockData[0], Math.floor(h / 10));
+  updateDigit(clockData[1], h % 10);
+  updateDigit(clockData[2], Math.floor(m / 10));
+  updateDigit(clockData[3], m % 10);
+  updateDigit(clockData[4], Math.floor(s / 10));
+  updateDigit(clockData[5], s % 10);
+};
 setInterval(() => {
   let time = new Date();
   let h = time.getHours();
@@ -183,4 +191,7 @@ setInterval(() => {
   let s = time.getSeconds();
   //   updateDigit(s % 10);
   //   render();
+
+  updateAllDigit(h % 12, m, s);
+  render();
 }, 1000);
